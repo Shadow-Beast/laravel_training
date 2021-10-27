@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Task;
 
 use App\Contracts\Services\Task\TaskServiceInterface;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateTaskRequest;
 use Illuminate\Http\Request;
 
 /**
@@ -41,10 +42,11 @@ class TaskController extends Controller
 
     /**
      * To add task
-     * @param Request $request
+     * @param CreateTaskRequest $request
      * @return View task list
      */
-    public function addTask(Request $request) {
+    public function addTask(CreateTaskRequest $request) {
+        $validated = $request->validated();
         $task = $this->taskInterface->addTask($request);
         return redirect('/');
     }
