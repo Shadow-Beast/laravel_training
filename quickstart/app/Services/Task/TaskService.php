@@ -46,9 +46,9 @@ class TaskService implements TaskServiceInterface
     /**
      * To delete task
      * @param string $id task id
-     * @return 
+     * @return string $message message success or not
      */
     public function deleteTask($id) {
-        $this->taskDao->deleteTask($id);
+        return $this->taskDao->deleteTask($id);
     }
 }

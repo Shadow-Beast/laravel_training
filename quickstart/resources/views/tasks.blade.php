@@ -10,6 +10,15 @@
         <!-- Display Validation Errors -->
         @include('common.errors')
 
+        <!-- Delete Success Message-->
+        @if (session('message') != null)
+            <div class="alert alert-success">
+                <strong>
+                    {{ session('message') }}
+                </strong>            
+            </div>
+        @endif
+
         <!-- New Task Form -->
         <form action="/task" method="POST" class="form-horizontal">
             {{ csrf_field() }}
@@ -26,7 +35,7 @@
             <!-- Add Task Button -->
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-6">
-                    <button type="submit" class="btn btn-default">
+                    <button type="submit" class="btn btn-info">
                         <i class="fa fa-plus"></i> Add Task
                     </button>
                 </div>
@@ -64,7 +73,9 @@
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
 
-                                            <button>Delete Task</button>
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fa fa-btn fa-trash"></i>Delete
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>

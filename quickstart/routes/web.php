@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Task\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,14 +17,14 @@ use Illuminate\Support\Facades\Route;
 /**
  * Display All Tasks
  */
-Route::get('/', 'App\Http\Controllers\Task\TaskController@showTaskList');
+Route::get('/', [TaskController::class, 'showTaskList']);
 
 /**
  * Add A New Task
  */
-Route::post('/task', 'App\Http\Controllers\Task\TaskController@addTask');
+Route::post('/task', [TaskController::class, 'addTask']);
 
 /**
  * Delete An Existing Task
  */
-Route::delete('/task/{id}', 'App\Http\Controllers\Task\TaskController@deleteTask');
+Route::delete('/task/{id}', [TaskController::class, 'deleteTask']);

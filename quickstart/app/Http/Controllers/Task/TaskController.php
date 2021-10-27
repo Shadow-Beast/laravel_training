@@ -57,7 +57,7 @@ class TaskController extends Controller
      * @return View task list
      */
     public function deleteTask($id) {
-        $this->taskInterface->deleteTask($id);
-        return redirect('/');
+        $message = $this->taskInterface->deleteTask($id);
+        return redirect('/')->with('message', $message);
     }
 }
