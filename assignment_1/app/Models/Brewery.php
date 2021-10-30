@@ -9,4 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Brewery extends Model
 {
     use SoftDeletes;
+
+    protected $fillable = ['name', 'city', 'state'];
 }

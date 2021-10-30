@@ -70,4 +70,20 @@ class BreweryService implements BreweryServiceInterface
     public function updateBrewery($id, $request) {
         return $this->breweryDao->updateBrewery($id, $request);
     }
+
+    /**
+     * To import file in Brewery Table
+     * @param object $request Validated values from request
+     * @return string $message message success or not
+     */
+    public function importBreweryFile($request) {
+        return $this->breweryDao->importBreweryFile($request);
+    }
+
+    /**
+     * To export breweries.xlsx file from Brewery Table
+     */
+    public function exportBreweryFile() {
+        return $this->breweryDao->exportBreweryFile();
+    }
 }

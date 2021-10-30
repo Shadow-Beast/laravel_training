@@ -70,4 +70,20 @@ class BeerService implements BeerServiceInterface
     public function updateBeer($id, $request) {
         return $this->beerDao->updateBeer($id, $request);
     }  
+
+    /**
+     * To import file in Beer Table
+     * @param object $request Validated values from request
+     * @return string $message message success or not
+     */
+    public function importBeerFile($request) {
+        return $this->beerDao->importBeerFile($request);
+    } 
+    
+    /**
+     * To export beers.xlsx file from Beer Table
+     */
+    public function exportBeerFile() {
+        return $this->beerDao->exportBeerFile();
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Brewery;
 use App\Contracts\Services\Brewery\BreweryServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUpdateBreweryRequest;
+use App\Http\Requests\ImportFileForTableRequest;
 use Illuminate\Http\Request;
 
 /**
@@ -60,6 +61,7 @@ class BreweryController extends Controller
 
     /**
      * To view brewery
+     * @param string $id brewery id
      * @return View brewery.view form
      */
     public function viewBreweryForm($id) {
@@ -72,7 +74,7 @@ class BreweryController extends Controller
     /**
      * To delete brewery
      * @param string $id brewery id
-     * @return string $message message success or not
+     * @return View brewery list
      */
     public function deleteBrewery($id) {
         $message = $this->breweryServiceInterface->deleteBrewery($id);
@@ -81,6 +83,7 @@ class BreweryController extends Controller
 
     /**
      * To show update-brewery form
+     * @param string $id brewery id
      * @return View brewery.update form
      */
     public function updateBreweryForm($id) {
@@ -93,12 +96,30 @@ class BreweryController extends Controller
     /**
      * To update brewery
      * @param string $id brewery id
-     * @param object $request Validated values from request
-     * @return Object updated brewery object
+     * @param CreateUpdateBreweryRequest $request
+     * @return View brewery list
      */
     public function updateBrewery($id, CreateUpdateBreweryRequest $request) {
         $validated = $request->validated();
         $brewery = $this->breweryServiceInterface->updateBrewery($id, $request);
         return redirect('/');
+    }
+
+    /**
+     * To import file in Brewery Table
+     * @param ImportFileForTableRequest $request
+     * @return View brewery list
+     */
+    public function importBreweryFile(ImportFileForTableRequest $request) {
+        $validated = $request->validated();
+        $message = $this->breweryServiceInterface->importBreweryFile($request);
+        return redirect('/')->with('message', $message);
+    }
+
+    /**
+     * To download Brewery files
+     */
+    public function exportBreweryFile() {
+        return $this->breweryServiceInterface->exportBreweryFile();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Beer;
 use App\Contracts\Services\Beer\BeerServiceInterface;
 use App\Contracts\Services\Brewery\BreweryServiceInterface;
 use App\Http\Requests\CreateUpdateBeerRequest;
+use App\Http\Requests\ImportFileForTableRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -59,8 +60,8 @@ class BeerController extends Controller
 
     /**
      * To save beer
-     * @param object $request Validated values from request
-     * @return Object created beer object
+     * @param CreateUpdateBeerRequest $request
+     * @return View beer list
      */
     public function addBeer(CreateUpdateBeerRequest $request) {
         $validated = $request->validated();
@@ -70,6 +71,7 @@ class BeerController extends Controller
 
     /**
      * To view beer
+     * @param string $id beer id
      * @return View brewery.view form
      */
     public function viewBeerForm($id) {
@@ -84,7 +86,7 @@ class BeerController extends Controller
     /**
      * To delete beer
      * @param string $id beer id
-     * @return string $message message success or not
+     * @return View beer list
      */
     public function deleteBeer($id) {
         $message = $this->beerServiceInterface->deleteBeer($id);
@@ -93,6 +95,7 @@ class BeerController extends Controller
 
     /**
      * To show update-beer form
+     * @param string $id beer id
      * @return View beer.update form
      */
     public function updateBeerForm($id) {
@@ -107,12 +110,30 @@ class BeerController extends Controller
     /**
      * To update beer
      * @param string $id beer id
-     * @param object $request Validated values from request
-     * @return Object updated beer object
+     * @param CreateUpdateBeerRequest $request
+     * @return View beer list
      */
     public function updateBeer($id, CreateUpdateBeerRequest $request) {
         $validated = $request->validated();
         $beer = $this->beerServiceInterface->updateBeer($id, $request);
         return redirect('/beer-list');
-    }    
+    }
+    
+    /**
+     * To import file in Beer Table
+     * @param ImportFileForTableRequest $request
+     * @return View beer list
+     */
+    public function importBeerFile(ImportFileForTableRequest $request) {
+        $validated = $request->validated();
+        $message = $this->beerServiceInterface->importBeerFile($request);
+        return redirect('/beer-list')->with('message', $message);
+    }
+
+    /**
+     * To download Beer files
+     */
+    public function exportBeerFile() {
+        return $this->beerServiceInterface->exportBeerFile();  
+    }
 }

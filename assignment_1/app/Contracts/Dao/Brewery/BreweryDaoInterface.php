@@ -43,4 +43,16 @@ interface BreweryDaoInterface
      * @return Object updated brewery object
      */
     public function updateBrewery($id, $request);
+
+    /**
+     * To import file in Brewery Table
+     * @param object $request Validated values from request
+     * @return string $message message success or not
+     */
+    public function importBreweryFile($request);
+
+    /**
+     * To export breweries.xlsx file from Brewery Table
+     */
+    public function exportBreweryFile();
 }

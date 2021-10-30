@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Brewery\BreweryController;
 use App\Http\Controllers\Beer\BeerController;
+use App\Http\Controllers\ExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,11 @@ Route::get('/update-brewery/{id}', [BreweryController::class, 'updateBreweryForm
  */
 Route::post('/brewery/{id}', [BreweryController::class, 'updateBrewery']);
 
+/**
+ * Import Breweries file
+ */
+Route::post('/import-breweries', [BreweryController::class, 'importBreweryFile']);
+
 
 //Beer
 /**
@@ -87,3 +93,12 @@ Route::get('/update-beer/{id}', [BeerController::class, 'updateBeerForm']);
  * Update An Existing Beer
  */
 Route::post('/beer/{id}', [BeerController::class, 'updateBeer']);
+
+/**
+ * Import Beer file
+ */
+Route::post('/import-beers', [BeerController::class, 'importBeerFile']);
+
+//Export
+Route::get('/download-breweries', [BreweryController::class, 'exportBreweryFile']);
+Route::get('/download-beers', [BeerController::class, 'exportBeerFile']);

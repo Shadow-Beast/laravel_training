@@ -13,6 +13,18 @@
             </a>
         </div> 
 
+        <!-- Import File for Beers-->
+        <form action="/import-beers" method="post" onSubmit="return confirm('Do you want to add this file?')" class="my-2" enctype="multipart/form-data">
+        {{ csrf_field() }}
+            <div class="clearfix">
+                <input type="file" name="file" class="border float-left col-sm-11 pl-0">
+                <button type="submit" class="btn btn-secondary btn-sm float-right">
+                    <span class="fas fa-file-import"> Import</span>
+                </button>
+            </div>  
+        </form>
+
+
         <!-- Current Beers -->
         @if (count($beers) > 0)
         <table class="table table-bordered table-responsive-lg">
@@ -39,9 +51,9 @@
                     <td>{{ $beer->ounces }}</td>
                     <td>{{ $beer->created_at }}</td>
                     <td>{{ $beer->updated_at }}</td>
-                    <td>
-                        <a href="/view-beer/{{ $beer->id }}" class="btn btn-dark mr-3" title="View" data-toggle="tooltip"><span class="fa fa-eye"></span></a>
-                        <a href="/update-beer/{{ $beer->id }}" class="btn btn-info mr-3" title="Update" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>
+                    <td width="13%">
+                        <a href="/view-beer/{{ $beer->id }}" class="btn btn-dark mr-1" title="View" data-toggle="tooltip"><span class="fa fa-eye"></span></a>
+                        <a href="/update-beer/{{ $beer->id }}" class="btn btn-info mr-1" title="Update" data-toggle="tooltip"><span class="fa fa-pencil-alt"></span></a>
                         <form action="/delete-beer/{{ $beer->id }}" method="post" onSubmit="return confirm('Do you want to delete {{ $beer->name }}?')" class="delete">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}

@@ -4,6 +4,9 @@ namespace App\Dao\Brewery;
 
 use App\Models\Brewery;
 use App\Contracts\Dao\Brewery\BreweryDaoInterface;
+use App\Exports\BreweriesExport;
+use App\Imports\BreweriesImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 /**
@@ -67,5 +70,22 @@ class BreweryDao implements BreweryDaoInterface
         $brewery->state = $request->state;
         $brewery->save();
         return $brewery;
+    }
+
+    /**
+     * To import file in Brewery Table
+     * @param object $request Validated values from request
+     * @return string $message message success or not
+     */
+    public function importBreweryFile($request) {
+        Excel::import(new BreweriesImport, $request->file('file'));
+        return 'The file imported successfully!';
+    }
+
+    /**
+     * To export breweries.xlsx file from Brewery Table
+     */
+    public function exportBreweryFile() {
+        return Excel::download(new BreweriesExport, 'breweries.xlsx');
     }
 }

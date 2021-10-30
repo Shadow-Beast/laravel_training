@@ -4,6 +4,9 @@ namespace App\Dao\Beer;
 
 use App\Models\Beer;
 use App\Contracts\Dao\Beer\BeerDaoInterface;
+use App\Exports\BeersExport;
+use App\Imports\BeersImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 /**
@@ -73,5 +76,22 @@ class BeerDao implements BeerDaoInterface
         $beer->ounces = $request->ounces;
         $beer->save();
         return $beer;
+    }
+
+    /**
+     * To import file in Beer Table
+     * @param object $request Validated values from request
+     * @return string $message message success or not
+     */
+    public function importBeerFile($request) {
+        Excel::import(new BeersImport, $request->file('file'));
+        return 'The file imported successfully!';
+    }
+
+    /**
+     * To export beers.xlsx file from Beer Table
+     */
+    public function exportBeerFile() {
+        return Excel::download(new BeersExport, 'beers.xlsx');
     }
 }

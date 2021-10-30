@@ -8,7 +8,7 @@
         <title>CraftBeer</title>
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css">
         <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
 
         <!-- Styles -->
@@ -40,18 +40,36 @@
             <span class="navbar-toggler-icon"></span>
         </button>                    
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Breweries</a>
+                    <a class="nav-link {{ Request::path() == '/' ? 'active': '' }}" href="/">Breweries</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/beer-list">Beers</a>
-                </li>
+                    <a class="nav-link {{ Request::path() == 'beer-list' ? 'active': '' }}" href="/beer-list">Beers</a>
+                </li>                
             </ul>
+            <div class="dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Download
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/download-breweries">Breweries</a>
+                    <a class="dropdown-item" href="/download-beers">Beers</a>
+                </div>
+        </div>
         </div>
     </nav>
 
     <div class="wrapper">
+        <!-- Message -->
+        @if (session('message') != null)
+            <div class="alert alert-success">
+                <strong>
+                    {{ session('message') }}
+                </strong>            
+            </div>
+        @endif
+
         @yield('content')
     </div>
     
