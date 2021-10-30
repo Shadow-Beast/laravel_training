@@ -57,6 +57,11 @@ Route::post('/brewery/{id}', [BreweryController::class, 'updateBrewery']);
  */
 Route::post('/import-breweries', [BreweryController::class, 'importBreweryFile']);
 
+/**
+ * Export Breweries file
+ */
+Route::get('/download-breweries', [BreweryController::class, 'exportBreweryFile']);
+
 
 //Beer
 /**
@@ -99,6 +104,7 @@ Route::post('/beer/{id}', [BeerController::class, 'updateBeer']);
  */
 Route::post('/import-beers', [BeerController::class, 'importBeerFile']);
 
-//Export
-Route::get('/download-breweries', [BreweryController::class, 'exportBreweryFile']);
+/**
+ * Export Beer file
+ */
 Route::get('/download-beers', [BeerController::class, 'exportBeerFile']);
