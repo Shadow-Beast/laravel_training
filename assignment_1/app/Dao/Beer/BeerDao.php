@@ -8,6 +8,7 @@ use App\Exports\BeersExport;
 use App\Imports\BeersImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Data accessing object for beer
@@ -93,5 +94,32 @@ class BeerDao implements BeerDaoInterface
      */
     public function exportBeerFile() {
         return Excel::download(new BeersExport, 'beers.xlsx');
+    }
+
+    /**
+     * To To search beer datas
+     * @param object $request Validated values from request
+     * @return beers
+     */
+    public function searchBeers($request) {
+        $beers = DB::select( DB::raw("SELECT * FROM beers WHERE 
+                                      brewery_id = :brewery_id AND
+                                      abv = :abv AND
+                                      ibu = :ibu AND
+                                      name = :name AND
+                                      style = :style AND
+                                      ounces = :ounces AND
+                                      created_at >= :start_date AND
+                                      created_at < :end_date"), array(
+                                      'brewery_id' => $request->brewery_id,
+                                      'abv' => $request->abv,
+                                      'ibu' => $request->ibu,
+                                      'name' => $request->name,
+                                      'style' => $request->style,
+                                      'ounces' => $request->ounces,
+                                      'start_date' => $request->start_date,
+                                      'end_date' => $request->end_date,
+                ));
+        return $beers;
     }
 }

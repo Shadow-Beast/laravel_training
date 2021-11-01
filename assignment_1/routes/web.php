@@ -108,3 +108,13 @@ Route::post('/import-beers', [BeerController::class, 'importBeerFile']);
  * Export Beer file
  */
 Route::get('/download-beers', [BeerController::class, 'exportBeerFile']);
+
+/**
+ * Display Search-Beer Form
+ */
+Route::get('/search', [BeerController::class, 'searchBeerForm']);
+
+/**
+ * Search Beers
+ */
+Route::post('/search-beer', [BeerController::class, 'searchBeers']);

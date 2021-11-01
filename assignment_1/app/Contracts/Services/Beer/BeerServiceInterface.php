@@ -54,4 +54,11 @@ interface BeerServiceInterface
      * To export beers.xlsx file from Beer Table
      */
     public function exportBeerFile();
+
+    /**
+     * To To search beer datas
+     * @param object $request Validated values from request
+     * @return beers
+     */
+    public function searchBeers($request);
 }

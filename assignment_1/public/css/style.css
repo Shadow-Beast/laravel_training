@@ -1,0 +1,15 @@
+@charset "utf-8";
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.delete {
+    display: inline-block;
+}

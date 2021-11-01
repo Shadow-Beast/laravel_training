@@ -136,4 +136,35 @@ class BeerController extends Controller
     public function exportBeerFile() {
         return $this->beerServiceInterface->exportBeerFile();  
     }
+
+    /**
+     * To show search-beer form
+     * @return View beer.search form
+     */
+    public function searchBeerForm() {
+        $breweries = $this->breweryServiceInterface->getBreweryList();
+        return view('beer.search', [
+            'breweries' => $breweries
+        ]);
+    }
+
+    /**
+     * To search beer datas
+     * @param Request $request
+     * @return View beer.searched_data
+     */
+    public function searchBeers(Request $request) {
+        $beers =$this->beerServiceInterface->searchBeers($request);
+        $breweries = $this->breweryServiceInterface->getBreweryList();
+        if($beers == null) {
+            $message = "Data is not found !";
+        }
+        else {
+            $message = "Search Successful !";
+        }
+        return view('beer.searched_data', [
+            'beers' => $beers,
+            'breweries' => $breweries
+        ])->with('message', $message);
+    }
 }
