@@ -118,3 +118,11 @@ Route::get('/search', [BeerController::class, 'searchBeerForm']);
  * Search Beers
  */
 Route::post('/search-beer', [BeerController::class, 'searchBeers']);
+
+//API
+/**
+ * Display All Beers
+ */
+Route::get('/api/beer-list', function() {
+    return view('beer.api.index');
+});
