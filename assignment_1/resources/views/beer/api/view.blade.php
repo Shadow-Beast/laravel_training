@@ -10,7 +10,6 @@
         <div class="col-md-12">
             <h2 class="mt-5">Beer Detail</h2>
             <div id="api-view">
-
             </div>            
         </div>
     </div>

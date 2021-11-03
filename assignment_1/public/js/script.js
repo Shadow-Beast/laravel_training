@@ -185,6 +185,14 @@ $(function () {
             type: "GET",
             dataType: "json",
             success: function (data) {
+                var created_at = moment(
+                    data["beer"].created_at,
+                    "YYYY-MM-DD HH:mm:ss"
+                ).format("YYYY-MM-DD HH:mm:ss");
+                var updated_at = moment(
+                    data["beer"].updated_at,
+                    "YYYY-MM-DD HH:mm:ss"
+                ).format("YYYY-MM-DD HH:mm:ss");
                 $("#api-view").append(
                     `<div class="form-group">
                         <label>ID</label>
@@ -216,11 +224,11 @@ $(function () {
                     </div>
                     <div class="form-group">
                         <label>Created Time</label>
-                        <p><b>${data["beer"].created_at}</b></p>
+                        <p><b>${created_at}</b></p>
                     </div>
                     <div class="form-group">
                         <label>Updated Time</label>
-                        <p><b>${data["beer"].updated_at}</b></p>
+                        <p><b>${updated_at}</b></p>
                     </div>
                     <a href="/api_view/beer-list" class="btn btn-primary">Back</a>`
                 );
