@@ -70,10 +70,7 @@ class BeerAPIController extends Controller
    public function viewBeerForm($id) {
        $beer = $this->beerServiceInterface->getBeer($id);
        $brewery = $this->breweryServiceInterface->getBrewery($beer->brewery_id);
-       return view('beer.view', [
-           'beer' => $beer,
-           'brewery' => $brewery
-       ]);
+       return response()->json(["beer" => $beer, "brewery" => $brewery]);
    }
 
    /**

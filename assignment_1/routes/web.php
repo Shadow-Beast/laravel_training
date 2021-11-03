@@ -140,3 +140,10 @@ Route::get('/api_view/create-beer', function() {
 Route::get('/api_view/update-beer/{id}', function() {
     return view('beer.api.update');
 });
+
+/**
+ * View An Existing beer
+ */
+Route::get('/api_view/view-beer/{id}', function() {
+    return view('beer.api.view');
+});

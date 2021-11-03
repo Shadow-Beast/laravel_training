@@ -25,6 +25,7 @@ $.ajax({
                     <td>${created_at}</td>
                     <td>${updated_at}</td>
                     <td width="13%">
+                        <a href="/api_view/view-beer/${beer.id}" class="btn btn-dark mr-1" title="View" data-toggle="tooltip"><span class="fa fa-eye"></span></a>
                         <a href="/api_view/update-beer/${beer.id}" class="btn btn-info mr-1" title="Update" data-toggle="tooltip"><span class="fa fa-pencil-alt"></span></a>
                         <button class="btn btn-danger" title="Delete" data-toggle="tooltip" onclick="deleteBeer(${beer.id},'${beer.name}')">
                             <span class="fa fa-trash"></span>
@@ -100,7 +101,7 @@ $(function () {
                 $("#api-updateForm").append(
                     `<div class="form-group">
                         <label>Name</label>
-                        <input type="text" name="name" id="name" class="form-control" value="${data['beer'].name}">
+                        <input type="text" name="name" id="name" class="form-control" value="${data["beer"].name}">
                     </div>
                     <div class="form-group">
                         <label>Brewery Name</label>
@@ -109,42 +110,48 @@ $(function () {
                     </div>
                     <div class="form-group">
                         <label>ABV</label>
-                        <input type="number" step=0.001 min="0" name="abv" id="abv" class="form-control" value="${data['beer'].abv}">
+                        <input type="number" step=0.001 min="0" name="abv" id="abv" class="form-control" value="${data["beer"].abv}">
                     </div>
                     <div class="form-group">
                         <label>IBU (Optional)</label>
-                        <input type="number" step=1 min="0" name="ibu" id="ibu" class="form-control" value="${data['beer'].ibu}">
+                        <input type="number" step=1 min="0" name="ibu" id="ibu" class="form-control" value="${data["beer"].ibu}">
                     </div>
                     <div class="form-group">
                         <label>Style</label>
-                        <input type="text" name="style" id="style" class="form-control" value="${data['beer'].style}">
+                        <input type="text" name="style" id="style" class="form-control" value="${data["beer"].style}">
                     </div>
                     <div class="form-group">
                         <label>Ounces</label>
-                        <input type="number" name="ounces" id="ounces" step=1 min="0" class="form-control" value="${data['beer'].ounces}">                   
+                        <input type="number" name="ounces" id="ounces" step=1 min="0" class="form-control" value="${data["beer"].ounces}">                   
                     </div>                
-                    <button class="btn btn-primary" onclick="updateBeer(${data['beer'].id})">Submit</button>
+                    <button class="btn btn-primary" onclick="updateBeer(${data["beer"].id})">Submit</button>
                     <a href="/api_view/beer-list" class="btn btn-secondary ml-2">Cancel</a>`
                 );
-                data['breweries'].forEach((brewery) => {
-                    var optionAppendCode ='';
-                    if(brewery.id == data['beer'].brewery_id) {
-                        optionAppendCode ="<option value='" + brewery.id + "' selected='selected'>" + brewery.name + "</option>";
+                data["breweries"].forEach((brewery) => {
+                    var optionAppendCode = "";
+                    if (brewery.id == data["beer"].brewery_id) {
+                        optionAppendCode =
+                            "<option value='" +
+                            brewery.id +
+                            "' selected='selected'>" +
+                            brewery.name +
+                            "</option>";
+                    } else {
+                        optionAppendCode =
+                            "<option value='" +
+                            brewery.id +
+                            "'>" +
+                            brewery.name +
+                            "</option>";
                     }
-                    else {
-                        optionAppendCode ="<option value='" + brewery.id + "'>" + brewery.name + "</option>";
-                    }
-                    $("#brewery_id").append(
-                        `${optionAppendCode}`
-                    );
+                    $("#brewery_id").append(`${optionAppendCode}`);
                 });
             },
         });
     }
 });
 
-
-//Add beer
+//Update beer
 function updateBeer(id) {
     console.log(id);
     if (confirm("Do you want to update this beer?") == true) {
@@ -168,3 +175,56 @@ function updateBeer(id) {
         });
     }
 }
+
+//View Beer
+$(function () {
+    var id = window.location.pathname.split("/")[3];
+    if (id != null) {
+        $.ajax({
+            url: "/api/view-beer/" + id,
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                $("#api-view").append(
+                    `<div class="form-group">
+                        <label>ID</label>
+                        <p><b>${data["beer"].id}</b></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <p><b>${data["beer"].name}</b></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Brewery Name</label>
+                        <p><b>${data["brewery"].name}</b></p>
+                    </div>
+                    <div class="form-group">
+                        <label>ABV</label>
+                        <p><b>${data["beer"].abv}</b></p>
+                    </div>
+                    <div class="form-group">
+                        <label>IBU</label>
+                        <p><b>${data["beer"].ibu}</b></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Style</label>
+                        <p><b>${data["beer"].style}</b></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Ounces</label>
+                        <p><b>${data["beer"].ounces}</b></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Created Time</label>
+                        <p><b>${data["beer"].created_at}</b></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Updated Time</label>
+                        <p><b>${data["beer"].updated_at}</b></p>
+                    </div>
+                    <a href="/api_view/beer-list" class="btn btn-primary">Back</a>`
+                );
+            },
+        });
+    }
+});
