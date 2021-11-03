@@ -1,9 +1,3 @@
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-
 //Beer-List
 $.ajax({
     url: "/api/beer-list",
@@ -11,8 +5,14 @@ $.ajax({
     dataType: "json",
     success: function (data) {
         data.forEach((beer) => {
-            var created_at = moment(beer.created_at, 'YYYY-MM-DD HH:mm:ss').format("YYYY-MM-DD HH:mm:ss");
-            var updated_at = moment(beer.updated_at, 'YYYY-MM-DD HH:mm:ss').format("YYYY-MM-DD HH:mm:ss");
+            var created_at = moment(
+                beer.created_at,
+                "YYYY-MM-DD HH:mm:ss"
+            ).format("YYYY-MM-DD HH:mm:ss");
+            var updated_at = moment(
+                beer.updated_at,
+                "YYYY-MM-DD HH:mm:ss"
+            ).format("YYYY-MM-DD HH:mm:ss");
             $("#api-beerTable > tbody").append(
                 `<tr>
                     <td>${beer.id}</td>
@@ -25,13 +25,10 @@ $.ajax({
                     <td>${created_at}</td>
                     <td>${updated_at}</td>
                     <td width="13%">
-                        <a href="/api_view/view-beer/${beer.id}" class="btn btn-dark mr-1" title="View" data-toggle="tooltip"><span class="fa fa-eye"></span></a>
                         <a href="/api_view/update-beer/${beer.id}" class="btn btn-info mr-1" title="Update" data-toggle="tooltip"><span class="fa fa-pencil-alt"></span></a>
-                        <form action="/api_view/delete-beer/${beer.id}" method="post" onSubmit="return confirm('Do you want to delete ${beer.name}?')" class="delete">
-                            <button type="submit" class="btn btn-danger" title="Delete" data-toggle="tooltip">
-                                <span class="fa fa-trash"></span>
-                            </button>
-                        </form>
+                        <button class="btn btn-danger" title="Delete" data-toggle="tooltip" onclick="deleteBeer(${beer.id},'${beer.name}')">
+                            <span class="fa fa-trash"></span>
+                        </button>
                     </td>
                 </tr>`
             );
@@ -54,20 +51,120 @@ $.ajax({
 });
 
 //Add beer
-$("#api-addBeerForm").submit(function() {
-    var form = $('#api-addBeerForm')[0];
-    var data = new FormData(form);
-    console.log(data);
-    // $.ajax({
-    //     url: "/api/beer",
-    //     type: "POST",
-    //     data: {
-    //         "_token": "{{ csrf_token() }}",
-    //         data: data
-    //     },
-    //     success: function (data) {
-    //         console.log("Create Successful");
-    //         window.location.href = "/api_view/beer";
-    //     },
-    // });
-})
+function addBeer() {
+    if (confirm("Do you want to add this beer?") == true) {
+        var data = {
+            name: $("#name").val(),
+            brewery_id: $("#brewery_id").val(),
+            abv: $("#abv").val(),
+            ibu: $("#ibu").val(),
+            style: $("#style").val(),
+            ounces: $("#ounces").val(),
+        };
+
+        $.ajax({
+            url: "/api/beer",
+            type: "POST",
+            data: data,
+            success: function (res) {
+                alert("Create Successful");
+                window.location.href = "/api_view/beer-list";
+            },
+        });
+    }
+}
+
+//Delete beer
+function deleteBeer(id, beername) {
+    if (confirm("Do you want to delete " + beername + "?") == true) {
+        $.ajax({
+            url: "/api/delete-beer/" + id,
+            type: "DELETE",
+            success: function (msg) {
+                alert(msg);
+                location.reload();
+            },
+        });
+    }
+}
+
+//Display UpdateBeer Form
+$(function () {
+    var id = window.location.pathname.split("/")[3];
+    if (id != null) {
+        $.ajax({
+            url: "/api/update-beer/" + id,
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                $("#api-updateForm").append(
+                    `<div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="name" id="name" class="form-control" value="${data['beer'].name}">
+                    </div>
+                    <div class="form-group">
+                        <label>Brewery Name</label>
+                        <select name="brewery_id" id="brewery_id" class="form-select form-select-lg col-12">            
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ABV</label>
+                        <input type="number" step=0.001 min="0" name="abv" id="abv" class="form-control" value="${data['beer'].abv}">
+                    </div>
+                    <div class="form-group">
+                        <label>IBU (Optional)</label>
+                        <input type="number" step=1 min="0" name="ibu" id="ibu" class="form-control" value="${data['beer'].ibu}">
+                    </div>
+                    <div class="form-group">
+                        <label>Style</label>
+                        <input type="text" name="style" id="style" class="form-control" value="${data['beer'].style}">
+                    </div>
+                    <div class="form-group">
+                        <label>Ounces</label>
+                        <input type="number" name="ounces" id="ounces" step=1 min="0" class="form-control" value="${data['beer'].ounces}">                   
+                    </div>                
+                    <button class="btn btn-primary" onclick="updateBeer(${data['beer'].id})">Submit</button>
+                    <a href="/api_view/beer-list" class="btn btn-secondary ml-2">Cancel</a>`
+                );
+                data['breweries'].forEach((brewery) => {
+                    var optionAppendCode ='';
+                    if(brewery.id == data['beer'].brewery_id) {
+                        optionAppendCode ="<option value='" + brewery.id + "' selected='selected'>" + brewery.name + "</option>";
+                    }
+                    else {
+                        optionAppendCode ="<option value='" + brewery.id + "'>" + brewery.name + "</option>";
+                    }
+                    $("#brewery_id").append(
+                        `${optionAppendCode}`
+                    );
+                });
+            },
+        });
+    }
+});
+
+
+//Add beer
+function updateBeer(id) {
+    console.log(id);
+    if (confirm("Do you want to update this beer?") == true) {
+        var data = {
+            name: $("#name").val(),
+            brewery_id: $("#brewery_id").val(),
+            abv: $("#abv").val(),
+            ibu: $("#ibu").val(),
+            style: $("#style").val(),
+            ounces: $("#ounces").val(),
+        };
+
+        $.ajax({
+            url: "/api/beer/" + id,
+            type: "POST",
+            data: data,
+            success: function (res) {
+                alert("Update Successful");
+                window.location.href = "/api_view/beer-list";
+            },
+        });
+    }
+}

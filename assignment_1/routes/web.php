@@ -135,8 +135,8 @@ Route::get('/api_view/create-beer', function() {
 });
 
 /**
- * Add A New Beer
+ * Display Update-Beer Form
  */
-// Route::post('/api_view/beer', function() {
-//     return redirect('/api_view/beer-list');
-// });
+Route::get('/api_view/update-beer/{id}', function() {
+    return view('beer.api.update');
+});

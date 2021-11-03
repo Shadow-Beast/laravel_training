@@ -83,7 +83,7 @@ class BeerAPIController extends Controller
     */
    public function deleteBeer($id) {
        $message = $this->beerServiceInterface->deleteBeer($id);
-       return redirect('/beer-list')->with('message', $message);
+       return response()->json($message);
    }
 
    /**
@@ -94,10 +94,7 @@ class BeerAPIController extends Controller
    public function updateBeerForm($id) {
        $beer = $this->beerServiceInterface->getBeer($id);
        $breweries = $this->breweryServiceInterface->getBreweryList();
-       return view('beer.update', [
-           'beer' => $beer,
-           'breweries' => $breweries
-       ]);
+       return response()->json(["beer" => $beer, "breweries" => $breweries]);
    }
 
    /**
@@ -109,6 +106,6 @@ class BeerAPIController extends Controller
    public function updateBeer($id, CreateUpdateBeerRequest $request) {
        $validated = $request->validated();
        $beer = $this->beerServiceInterface->updateBeer($id, $request);
-       return redirect('/beer-list');
+       return response()->json($beer);
    }
 }
