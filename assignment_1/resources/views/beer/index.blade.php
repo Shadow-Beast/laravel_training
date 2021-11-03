@@ -14,7 +14,7 @@
         </div> 
 
         <!-- Import File for Beers-->
-        <form action="/import-beers" method="post" onSubmit="return confirm('Do you want to add this file?')" class="my-2" enctype="multipart/form-data">
+        <form action="/api_view/import-beers" method="post" onSubmit="return confirm('Do you want to add this file?')" class="my-2" enctype="multipart/form-data">
         {{ csrf_field() }}
             <div class="clearfix">
                 <input type="file" name="file" class="border float-left col-sm-11 pl-0">

@@ -123,6 +123,20 @@ Route::post('/search-beer', [BeerController::class, 'searchBeers']);
 /**
  * Display All Beers
  */
-Route::get('/api/beer-list', function() {
+Route::get('/api_view/beer-list', function() {
     return view('beer.api.index');
 });
+
+/**
+ * Display Create-Beer Form
+ */
+Route::get('/api_view/create-beer', function() {
+    return view('beer.api.create');
+});
+
+/**
+ * Add A New Beer
+ */
+// Route::post('/api_view/beer', function() {
+//     return redirect('/api_view/beer-list');
+// });

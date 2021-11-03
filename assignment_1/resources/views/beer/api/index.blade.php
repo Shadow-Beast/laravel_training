@@ -8,13 +8,13 @@
 
         <!-- Add Beer Button -->
         <div class="clearfix">
-            <a class="btn btn-success float-right my-3" href="/create-beer">
+            <a class="btn btn-success float-right my-3" href="/api_view/create-beer">
                 <i class="fa fa-plus"></i> Add Beer
             </a>
         </div> 
 
         <!-- Current Beers -->
-        <table class="table table-bordered table-responsive-lg">
+        <table class="table table-bordered table-responsive-lg" id="api-beerTable">
             <thead>
                 <tr>
                     <th>#</th>
@@ -30,7 +30,6 @@
                 </tr>
             </thead>
             <tbody>
-
             </tbody>
         </table> 
     </div>

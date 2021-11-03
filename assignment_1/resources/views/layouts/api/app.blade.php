@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>CraftBeer</title>
 
@@ -28,7 +29,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="nav navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/api/beer-list">Beers</a>
+                    <a class="nav-link active" href="/api_view/beer-list">Beers</a>
                 </li>                
             </ul> 
             <ul class="nav navbar-nav">
@@ -54,7 +55,7 @@
     
          <!-- JavaScripts -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <!-- JavaScript Bundle with Popper -->
+        <script src="https://momentjs.com/downloads/moment.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="{{ asset('js/script.js') }}"></script>
     </body>

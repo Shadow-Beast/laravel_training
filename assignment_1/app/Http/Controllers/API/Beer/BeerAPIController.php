@@ -34,7 +34,7 @@ class BeerAPIController extends Controller
 
    /**
     * To show beer list
-    * @return View beer list
+    * @return Response json with beer list
     */
    public function showBeerList()
    {
@@ -44,13 +44,11 @@ class BeerAPIController extends Controller
 
    /**
     * To show create-beer form
-    * @return View beer.create form
+    * @return Response json with brewery list
     */
    public function createBeerForm() {
        $breweries = $this->breweryServiceInterface->getBreweryList();
-       return view('beer.create', [
-           'breweries' => $breweries
-       ]);
+       return response()->json($breweries);
    }
 
    /**
@@ -61,7 +59,7 @@ class BeerAPIController extends Controller
    public function addBeer(CreateUpdateBeerRequest $request) {
        $validated = $request->validated();
        $beer = $this->beerServiceInterface->addBeer($request);
-       return redirect('/beer-list');
+       return response()->json($beer);
    }
 
    /**

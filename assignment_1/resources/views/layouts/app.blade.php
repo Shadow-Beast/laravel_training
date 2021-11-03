@@ -36,7 +36,7 @@
             </ul>
             <ul class="nav navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/api/beer-list">API</a>
+                    <a class="nav-link" href="/api_view/beer-list">API</a>
                 </li>
                 <li class="nav-item {{ Request::path() == 'search' ? 'active': '' }}">
                     <a class="nav-link" href="/search">Search</a>
