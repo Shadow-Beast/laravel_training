@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Brewery\BreweryController;
 use App\Http\Controllers\Beer\BeerController;
-use App\Http\Controllers\ExportController;
+use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -147,3 +147,28 @@ Route::get('/api_view/update-beer/{id}', function() {
 Route::get('/api_view/view-beer/{id}', function() {
     return view('beer.api.view');
 });
+
+//Mail
+/**
+ * Display Send-Text Form
+ */
+Route::get('/mail/sendTextForm', function() {
+    return view('emails.sendText');
+});
+
+/**
+ * Send Text
+ */
+Route::post('/mail/sendText', [MailController::class, 'sendText']);
+
+/**
+ * Display Send-File Form
+ */
+Route::get('/mail/sendFileForm', function() {
+    return view('emails.sendFile');
+});
+
+/**
+ * Send File
+ */
+Route::post('/mail/sendFile', [MailController::class, 'sendFile']);
